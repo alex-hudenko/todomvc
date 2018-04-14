@@ -53,7 +53,10 @@ $(function () {
       $('ul.todo-list li').hide();
       $('ul.todo-list li.completed').show();
     }
+  });
 
-  })
+  $('button.clear-completed').click(function(e){
+    $('ul.todo-list li.completed').remove();
+  });
 
 });
