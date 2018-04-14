@@ -22,6 +22,10 @@ $(function () {
   });
 
   // init checkbox
+  $('body').on('dblclick', 'input.toggle', function(e){
+    e.stopPropagation();
+  });
+
   $('body').on('change', 'input.toggle', function(e){
     var checkbox =  e.target;
     if (checkbox.checked) {
@@ -55,8 +59,34 @@ $(function () {
     }
   });
 
+  // Clear completed
   $('button.clear-completed').click(function(e){
     $('ul.todo-list li.completed').remove();
+  });
+
+  // Toggle all
+  $('input.toggle-all').change(function(e) {
+    var checkboxToggleAll =  e.target;
+    if (checkboxToggleAll.checked) {
+      $('ul.todo-list input.toggle').prop('checked', true);
+      $('ul.todo-list li').addClass('completed');
+    } else {
+      $('ul.todo-list input.toggle').prop('checked', false);
+      $('ul.todo-list li').removeClass('completed');
+    }
+  });
+
+  // Edit mode on double click
+  $('body').on('dblclick', 'ul.todo-list li', function(e){
+    $(e.currentTarget).addClass('editing');
+  });
+
+  // Save on loose focus
+  $('body').on('blur', 'ul.todo-list input.edit', function(e) {
+    var input = e.target;
+    var $li = $(input).parents('li');
+    $li.removeClass('editing');
+    $li.find('label').html(input.value);
   });
 
 });
